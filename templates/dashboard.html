@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+
+    <h1>Admin Dashboard</h1>
+
+    <p>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </p>
+
+    <hr>
+
+    <h2>Add New Item</h2>
+
+    <form action="{{ url_for('add') }}" method="POST">
+
+        <label>Type:</label><br>
+        <select name="type">
+            <option value="work">Work</option>
+            <option value="notice">Notice</option>
+            <option value="gift">Gift</option>
+            <option value="discount">Discount</option>
+        </select>
+
+        <br><br>
+
+        <label>Name:</label><br>
+        <input type="text" name="name" required>
+
+        <br><br>
+
+        <label>Details:</label><br>
+        <textarea name="details"></textarea>
+
+        <br><br>
+
+        <label>Docs:</label><br>
+        <input type="text" name="docs">
+
+        <br><br>
+
+        <label>Old Price:</label><br>
+        <input type="text" name="old">
+
+        <br><br>
+
+        <label>New Price:</label><br>
+        <input type="text" name="new">
+
+        <br><br>
+
+        <button type="submit">Add Item</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Current Data</h2>
+
+    {% for typ, items in data.items() %}
+
+        <h3>{{ typ.title() }}</h3>
+
+        {% if items %}
+
+            {% for item in items %}
+
+                <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+
+                    <strong>{{ item.name }}</strong>
+
+                    <p>{{ item.details }}</p>
+
+                    {% if item.docs %}
+                        <p>Docs: {{ item.docs }}</p>
+                    {% endif %}
+
+                    {% if item.old %}
+                        <p>Old Price: {{ item.old }}</p>
+                    {% endif %}
+
+                    {% if item.new %}
+                        <p>New Price: {{ item.new }}</p>
+                    {% endif %}
+
+                    <a href="{{ url_for('delete', typ=typ, i=loop.index0) }}">
+                        Delete
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No items available.</p>
+
+        {% endif %}
+
+    {% endfor %}
+
+</body>
+</html>
