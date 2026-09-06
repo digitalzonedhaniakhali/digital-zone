@@ -35,10 +35,9 @@ def save(data):
         encoding="utf-8"
     )
 
-
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", data=load())
 
 
 @app.route("/admin", methods=["GET", "POST"])
