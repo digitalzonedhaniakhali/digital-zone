@@ -82,4 +82,4 @@ def add():
 
     save(data)
 
-    return redirect(url_for("dashboard")
+    return return redirect(url_for("dashboard"))
