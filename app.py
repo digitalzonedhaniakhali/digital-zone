@@ -1,3 +1,11 @@
+
+@app.route("/add", methods=["POST"])
+def add():
+    if not session.get("owner"):
+        return redirect(url_for("admin"))
+
+    data = load()
+    typ = request.form["type"]
 from flask import Flask, render_template, request, redirect, url_for, session
 from pathlib import Path
 import json
@@ -63,14 +71,6 @@ def dashboard():
         data=load()
     )
 
-
-@app.route("/add", methods=["POST"])
-def add():
-    if not session.get("owner"):
-        return redirect(url_for("admin"))
-
-    data = load()
-    typ = request.form["type"]
 
     data[typ].append({
         "name": request.form["name"],
