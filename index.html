@@ -171,7 +171,7 @@ const initial={
   {name:"Photo Frame Offer",details:"Limited special discount",docs:"",old:500,new:350}
  ]
 };
-let data=JSON.parse(localStorage.getItem("digitalZoneV2")||"null")||initial;
+let let data = {{ data | tojson }};
 function esc(s){return String(s||"").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
 function price(x){if(!x.new)return "";let save=x.old>x.new?x.old-x.new:0;return `<div class="priceRow">${x.old?`<span class="old">₹${x.old}</span>`:""}<span class="new">₹${x.new}</span></div>${save?`<div class="discountTag">SAVE ₹${save}</div>`:""}`}
 function render(){
@@ -187,7 +187,9 @@ function render(){
   <div class="offer"><h3>${esc(x.name)}</h3><p class="desc" style="font-size:16px">${esc(x.details)}</p>${x.old?`<span class="old">₹${x.old}</span><br>`:""}${x.new?`<span class="new">₹${x.new}</span>`:""}${x.old>x.new?`<div class="discountTag">SAVE ₹${x.old-x.new}</div>`:""}</div>`).join("");
  renderAdmin();
 }
-function showLogin(){document.getElementById("loginModal").classList.add("show")}
+function showLogin(){
+    window.location.href = "/admin";
+}
 function hide(id){document.getElementById(id).classList.remove("show")}
 function login(){if(password.value==="DZ2026"){hide("loginModal");document.getElementById("adminModal").classList.add("show")}else alert("Password ভুল হয়েছে।")}
 function addItem(){
