@@ -82,35 +82,4 @@ def add():
 
     save(data)
 
-    return redirect(url_for("dashboard"))
-
-
-@app.route("/delete/<typ>/<int:i>")
-def delete(typ, i):
-
-    if session.get("owner"):
-
-        data = load()
-
-        if typ in data and 0 <= i < len(data[typ]):
-            data[typ].pop(i)
-            save(data)
-
-    return redirect(url_for("dashboard"))
-
-
-@app.route("/logout")
-def logout():
-
-    session.clear()
-
-    return redirect(url_for("home"))
-
-
-# Render deployment configuration
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(
-        host="0.0.0.0",
-        port=port
-    )
+    return redirect(url_for("dashboard")
