@@ -193,36 +193,36 @@ function showLogin(){
 function hide(id){document.getElementById(id).classList.remove("show")}
 function login(){if(password.value==="DZ2026"){hide("loginModal");document.getElementById("adminModal").classList.add("show")}else alert("Password ভুল হয়েছে।")}
 function addItem(){
-    const t = document.getElementById("type").value;
-    const n = document.getElementById("name").value.trim();
-    const d = document.getElementById("details").value.trim();
-    const docs = document.getElementById("documents").value.trim();
-    const o = document.getElementById("oldPrice").value || "0";
-    const p = document.getElementById("newPrice").value || "0";
+    let t = document.getElementById("type").value;
+    let n = document.getElementById("name").value.trim();
+    let d = document.getElementById("details").value.trim();
+    let docs = document.getElementById("documents").value.trim();
+    let o = Number(document.getElementById("oldPrice").value) || 0;
+    let p = Number(document.getElementById("newPrice").value) || 0;
 
-    if (!n) {
+    if(!n){
         alert("নাম / Title লিখুন");
         return;
     }
 
-    const formData = new FormData();
-    formData.append("type", t);
-    formData.append("name", n);
-    formData.append("details", d);
-    formData.append("docs", docs);
-    formData.append("old", o);
-    formData.append("new", p);
-
-    fetch("/add", {
-        method: "POST",
-        body: formData
-    })
-    .then(() => {
-        alert("Successfully Published!");
-        window.location.reload();
-    })
-    .catch(() => {
-        alert("Publish করতে সমস্যা হয়েছে!");
+    data[t].push({
+        name: n,
+        details: d,
+        docs: docs,
+        old: o,
+        new: p
     });
+
+    localStorage.setItem("digitalZoneV2", JSON.stringify(data));
+
+    document.getElementById("name").value = "";
+    document.getElementById("details").value = "";
+    document.getElementById("documents").value = "";
+    document.getElementById("oldPrice").value = "";
+    document.getElementById("newPrice").value = "";
+
+    render();
+
+    alert("Successfully Published!");
 }
- 
+    
