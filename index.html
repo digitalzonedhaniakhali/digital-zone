@@ -193,18 +193,36 @@ function showLogin(){
 function hide(id){document.getElementById(id).classList.remove("show")}
 function login(){if(password.value==="DZ2026"){hide("loginModal");document.getElementById("adminModal").classList.add("show")}else alert("Password ভুল হয়েছে।")}
 function addItem(){
- let t=type.value,n=name.value.trim(),d=details.value.trim(),docs=documents.value.trim(),o=Number(oldPrice.value)||0,p=Number(newPrice.value)||0;
- if(!n){alert("নাম / Title লিখুন");return}
- data[t].push({name:n,details:d,docs:docs,old:o,new:p});
- localStorage.setItem("digitalZoneV2",JSON.stringify(data));
- name.value=details.value=documents.value=oldPrice.value=newPrice.value="";
- render();
+    const t = document.getElementById("type").value;
+    const n = document.getElementById("name").value.trim();
+    const d = document.getElementById("details").value.trim();
+    const docs = document.getElementById("documents").value.trim();
+    const o = document.getElementById("oldPrice").value || "0";
+    const p = document.getElementById("newPrice").value || "0";
+
+    if (!n) {
+        alert("নাম / Title লিখুন");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("type", t);
+    formData.append("name", n);
+    formData.append("details", d);
+    formData.append("docs", docs);
+    formData.append("old", o);
+    formData.append("new", p);
+
+    fetch("/add", {
+        method: "POST",
+        body: formData
+    })
+    .then(() => {
+        alert("Successfully Published!");
+        window.location.reload();
+    })
+    .catch(() => {
+        alert("Publish করতে সমস্যা হয়েছে!");
+    });
 }
-function renderAdmin(){
- let all=[];["work","notice","gift","discount"].forEach(t=>data[t].forEach((x,i)=>all.push([t,i,x])));
- adminItems.innerHTML=all.map(([t,i,x])=>`<div class="itemRow"><span><b>${esc(x.name)}</b><br><small>${t}</small></span><button class="del" onclick="removeItem('${t}',${i})">Delete</button></div>`).join("");
-}
-function removeItem(t,i){data[t].splice(i,1);localStorage.setItem("digitalZoneV2",JSON.stringify(data));render()}
-render();
-</script>
-<a href="/admin" style="position:fixed;right:18px;bottom:18px;background:#36efff;color:#071019;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:bold;z-index:99">🔐 Owner Admin</a></body></html>
+ 
